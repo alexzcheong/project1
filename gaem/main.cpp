@@ -62,6 +62,7 @@ int main() {
                 playerStack.push(current);
                 current.addScore(current.getScore()*playBlackJack());
                 current.incrementGame();
+                playerQueue.push(current); //keep playing until chooses end
                 break;
             }
 
@@ -73,7 +74,7 @@ int main() {
                 playerStack.push(current);
                 current.addScore(playTrivia());
                 current.incrementGame();
-
+                playerQueue.push(current); //keep playing until chooses end
                 break;
             }
             case 4:
@@ -83,6 +84,7 @@ int main() {
                 playerStack.push(current);
                 current.addScore(numGuess());
                 current.incrementGame();
+                playerQueue.push(current); //keep playing until chooses end
                 break;
             }
             case 5://leaderboard works
