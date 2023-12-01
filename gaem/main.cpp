@@ -19,11 +19,13 @@ int main() {
         cout << "choose a game mode (0/1/2/3/4)" << endl;
         cout << "0: end game" << endl << "1: player select(do this first)" << endl << "2: BlackJack" << endl;
         cout << "3: Trivia" << endl << "4: Number Guessing" << endl << "5: Leaderboards" << endl;
+        cout << "6: Spot in line" << endl;
 
         cin >> gameMode;//can code safeguards, but not the point of this lab
 
         switch (gameMode) {
             case 0: //end game
+                playerQueue.pop();
                 cout << "Thanks for Playing" << endl;
                 gameState = false;
                 break;
@@ -89,7 +91,7 @@ int main() {
             }
             case 5://leaderboard works
             {
-                //ofstream fout("leaderboard.txt");
+                //ofstream fout("leaderboard.txt"); //optional save file
                 leaderboardQuickSort(playerIdx, 0, playerIdx.size() - 1);//sorts lowest to highest
                 cout << "*TOP 5 PLAYERS*" << endl;
                 for(int i = playerIdx.size() - 1; i >= 0; i--){
@@ -99,6 +101,24 @@ int main() {
                     if (playerIdx.size() - i >= 5){
                         break;//only show top 5
                     }
+                }
+                break;
+            }
+            case 6:
+            {
+                string name, compare;
+                int pos = 0;
+                cout << "what is your username?" << endl;
+                cin >> name;
+                queue<Player> temp = playerQueue;
+                while (!temp.empty()){
+                    compare = temp.front().getName();
+                    temp.pop();
+                    if(compare == name){
+                        cout << "there are " << pos << " people ahead of you in line" << endl;
+                        break;
+                    }
+                    pos++;
                 }
                 break;
             }
