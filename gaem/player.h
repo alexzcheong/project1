@@ -18,7 +18,9 @@ public:
     std::string getName();
     void addScore(int s);
     void incrementGame();
-
+    void setScore(int s);
+    void setnumPlayed(int n);
+    Player(const Player &other);
     Player(Player *pPlayer);
 };
 Player::Player(){
@@ -42,15 +44,31 @@ std::string Player::getName(){
 }
 void Player::addScore(int s){
     score += s;
+    //std::cout << "called: " << score << std::endl;
 }
 void Player::incrementGame() {
     gamesPlayed++;
+    //std::cout << "incremented: " << gamesPlayed << std::endl;
 }
 
 Player::Player(Player *pPlayer) {
     name = pPlayer->name;
     score = pPlayer->score;
     gamesPlayed = pPlayer->gamesPlayed;
+}
+
+Player::Player(const Player &other) {
+    name = other.name;
+    score = other.score;
+    gamesPlayed = other.gamesPlayed;
+}
+
+void Player::setScore(int s) {
+    score = s;
+}
+
+void Player::setnumPlayed(int n) {
+    gamesPlayed = n;
 }
 
 #endif //GAEM_PLAYER_H

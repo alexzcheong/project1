@@ -2,6 +2,8 @@
 #include <stack>
 #include <queue>
 #include <fstream>
+#include <iterator>
+#include<algorithm>
 #include "player.h"
 #include "leaderboardQuickSort.h"
 #include "US_trivia.h"
@@ -11,7 +13,7 @@ using namespace std;
 int main() {
     stack<Player> playerStack;
     queue<Player> playerQueue;
-    vector<Player> playerIdx;
+    vector<Player> playerIdx, playedPlayers;
     bool gameState = true;
     while(gameState) {
         int gameMode;
@@ -58,13 +60,12 @@ int main() {
                 }
                 break;
             }
-            case 2: {   //blackjack game should work
+            case 2: {   //blackjack game works
                 Player current = playerQueue.front();
                 playerQueue.pop();
                 playerStack.push(current);
                 current.addScore(current.getScore()*playBlackJack());
                 current.incrementGame();
-                playerQueue.push(current); //keep playing until chooses end
                 break;
             }
 
@@ -76,7 +77,7 @@ int main() {
                 playerStack.push(current);
                 current.addScore(playTrivia());
                 current.incrementGame();
-                playerQueue.push(current); //keep playing until chooses end
+                playerQueue.push(current);
                 break;
             }
             case 4:
@@ -86,22 +87,29 @@ int main() {
                 playerStack.push(current);
                 current.addScore(numGuess());
                 current.incrementGame();
-                playerQueue.push(current); //keep playing until chooses end
                 break;
             }
             case 5://leaderboard works
             {
                 //ofstream fout("leaderboard.txt"); //optional save file
-                leaderboardQuickSort(playerIdx, 0, playerIdx.size() - 1);//sorts lowest to highest
+                queue<Player> throwaway(playerQueue);
+                while (!throwaway.empty()) {
+                    Player test = throwaway.front();
+                    playedPlayers.push_back(test);
+                    throwaway.pop();
+                }
+                cout << (playedPlayers[0].getName() == playerIdx[0].getName()) << endl;
+                leaderboardQuickSort(playedPlayers, 0, playedPlayers.size() - 1);//sorts lowest to highest
                 cout << "*TOP 5 PLAYERS*" << endl;
-                for(int i = playerIdx.size() - 1; i >= 0; i--){
-                    Player* ptr = &playerIdx[i];
+                for(int i = playedPlayers.size() - 1; i >= 0; i--){
+                    Player* ptr = &playedPlayers[i];
                     cout << "NAME: " << ptr->getName() << " GAMES PLAYED: "<< ptr->numPlayed() <<" SCORE: " << ptr->getScore() << endl;
                     //fout << "NAME: " << ptr->getName() << " GAMES PLAYED: "<< ptr->numPlayed() <<" SCORE: " << ptr->getScore() << endl;
-                    if (playerIdx.size() - i >= 5){
+                    if (playedPlayers.size() - i >= 5){
                         break;//only show top 5
                     }
                 }
+                playerIdx = playedPlayers;
                 break;
             }
             case 6:
