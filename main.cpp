@@ -15,9 +15,9 @@ int main() {
     queue<Player> playerQueue;
     vector<Player> playerIdx, playedPlayers;
     bool gameState = true;
+    cout << "Welcome to Alexzander's Arcade" << endl;
     while(gameState) {
         int gameMode;
-        cout << "Welcome to Alexzander's Arcade" << endl;
         cout << "choose a game mode (0/1/2/3/4)" << endl;
         cout << "0: end game" << endl << "1: player select(do this first)" << endl << "2: BlackJack" << endl;
         cout << "3: Trivia" << endl << "4: Number Guessing" << endl << "5: Leaderboards" << endl;
